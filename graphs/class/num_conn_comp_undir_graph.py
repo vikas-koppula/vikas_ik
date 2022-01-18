@@ -13,8 +13,8 @@ Example 2:
      |           |
      1 --- 2 --- 3
 Given n = 5 and edges = [[0, 1], [1, 2], [2, 3], [3, 4]], return 1.
+
 """
-import logging
 from collections import deque
 from typing import List, Set, Deque
 
@@ -31,29 +31,39 @@ def num_conn_comp(n: int, edges: List[list]):
     print("adj_list:", adj_list)
     num_connected: int = 0
 
-    def bfs_traversal(node: int):
+    def bfs_traversal(src_vertex: int):
         # Mark this node as visited, this will be the source node of the traversal
-        visited[node] = 1
+        visited[src_vertex] = 1
         dq: Deque = deque()
-        dq.appendleft(node)
+        dq.appendleft(src_vertex)
         # While there are elements in the queue, visit the neighbors
         while bool(dq):
             x = dq.pop()
-            # Mark this source traversal node as visited
-            visited[x] = 1
             # Look up neighbors from the adj list and add them to the queue
-            for node in adj_list[x]:
+            for nbr in adj_list[x]:
                 # We shouldn't add already visited nodes to the queue to avoid circular infinite traversal
-                if visited[node] != 1:
-                    dq.appendleft(node)
+                if visited[nbr] != 1:
+                    # Mark this neighbor node as visited
+                    visited[nbr] = 1
+                    dq.appendleft(nbr)
+        return
+
+    def dfs_traversal(node: int):
+        visited[node] = 1
+        for x in adj_list[node]:
+            if visited[x] != 1:
+                dfs_traversal(x)
         return
 
     # Outer loop
-    for x in range(n):
+    for node in range(n):
         # Start bfs traversal if the node hasn't been visited yet
         # If there is only one connected graph, then the bfs traversal will be invoked just once
-        if visited[x] != 1:
-            bfs_traversal(x)
+        if visited[node] != 1:
+            # BFS Traversal
+            bfs_traversal(src_vertex=node)
+            # DFS Traversal
+            #dfs_traversal(node)
             num_connected += 1
     return num_connected
 
