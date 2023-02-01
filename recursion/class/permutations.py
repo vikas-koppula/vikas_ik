@@ -4,6 +4,7 @@ You can return the answer in any order.
 Input: nums = [1,2,3]
 Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
 """
+from typing import List
 
 
 def permutations(input_arr):
@@ -28,5 +29,22 @@ def permutations(input_arr):
     return result
 
 
+def permutations_no_swap(input_arr: list):
+    result: List[List[int]] = list()
+
+    def helper(arr: list, slate: List[int]):
+        if len(slate) == len(input_arr) or len(arr) == 0:
+            result.append(slate[:])
+            return
+        for i in range(0, len(arr)):
+            slate.append(arr[i])
+            helper(arr[0:i] + arr[i+1:len(arr)+1], slate)
+            slate.pop()
+
+    helper(input_arr, [])
+    return result
+
+
 test = [1, 2, 3]
-print('Answer:', permutations(test))
+
+print('Answer:', permutations_no_swap(test))
