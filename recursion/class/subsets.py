@@ -1,21 +1,33 @@
-def subsets(test_ints: list):
-    result: list = []
+"""
+Given an integer array nums of unique elements, return all possible  subsets (the power set).
+The solution set must not contain duplicate subsets. Return the solution in any order.
+Input: nums = [1,2,3]
+Output: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+Input: nums = [0]
+Output: [[],[0]]
+"""
+from typing import List
 
-    def helper(ints: list, i: int, slate: list):
-        if i == len(ints):
+
+def subsets(nums: List[int]) -> List[List[int]]:
+    result: List[List[int]] = list()
+
+    def helper(nums: List[int], i: int, slate: List[int]):
+        if i == len(nums):
             result.append(slate[:])
             return
-        else:
-            # slate.append(ints[i])
-            helper(ints, i+1, slate)
-            # slate.pop()
-            slate.append(ints[i])
-            helper(ints, i + 1, slate)
-            slate.pop()
 
-    helper(test_ints, 0, [])
+        # Exclusion
+        helper(nums, i + 1, slate)
+
+        # Inclusion
+        slate.append(nums[i])
+        helper(nums, i+1, slate)
+        slate.pop()
+
+    helper(nums, 0, [])
     return result
 
 
-test = [1, 2, 2]
+test = [1, 2, 3]
 print('Answer:', subsets(test))
