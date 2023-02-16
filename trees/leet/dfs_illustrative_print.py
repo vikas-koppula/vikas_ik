@@ -3,13 +3,13 @@ Simple dfs print for illustrative purposes
 """
 
 from display_tree import display
-from node import Node
+from treenode import TreeNode
 from typing import List
 
 
-def dfs_print(root: Node):
+def dfs_print(root: TreeNode):
 
-    def helper(node: Node):
+    def helper(node: TreeNode):
         if node is None:
             print("At null node, simply return")
             return
@@ -34,9 +34,9 @@ def dfs_print(root: Node):
 
 
 def test():
-    top_left = Node(None, None, 2)
-    top_right = Node(None, None, 7)
-    top_node = Node(top_left, top_right, 5)
+    top_left = TreeNode(None, None, 2)
+    top_right = TreeNode(None, None, 7)
+    top_node = TreeNode(top_left, top_right, 5)
     display(top_node)
     print("-------------------")
     dfs_print(top_node)

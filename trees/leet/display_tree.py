@@ -1,13 +1,13 @@
-from node import Node
+from treenode import TreeNode
 
 
-def display(node: Node):
+def display(node: TreeNode):
     lines, *_ = _display_aux(node)
     for line in lines:
         print(line)
 
 
-def _display_aux(node: Node):
+def _display_aux(node: TreeNode):
     """Returns list of strings, width, height, and horizontal coordinate of the root."""
     # No child.
     if node.right is None and node.left is None:

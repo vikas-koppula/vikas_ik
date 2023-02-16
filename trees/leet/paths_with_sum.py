@@ -4,15 +4,15 @@ in the path equals targetSum. Each path should be returned as a list of the node
 A root-to-leaf path is a path starting from the root and ending at any leaf node. A leaf is a node with no children.
 """
 from display_tree import display
-from node import Node
+from treenode import TreeNode
 from typing import List
 
 
-def paths_with_sum(root: Node, target_sum: int) -> List[List[int]]:
+def paths_with_sum(root: TreeNode, target_sum: int) -> List[List[int]]:
     paths: List[List[int]] = []
     path: List[int] = []
 
-    def check_path_sum(node: Node, target: int, path: List[int]):
+    def check_path_sum(node: TreeNode, target: int, path: List[int]):
         if node is None:
             return
 
@@ -40,13 +40,13 @@ def paths_with_sum(root: Node, target_sum: int) -> List[List[int]]:
 
 
 def test():
-    top_left_left = Node(None, None, 1)
-    top_left_right = Node(None, None, 3)
-    top_left = Node(top_left_left, top_left_right, 2)
+    top_left_left = TreeNode(None, None, 1)
+    top_left_right = TreeNode(None, None, 3)
+    top_left = TreeNode(top_left_left, top_left_right, 2)
 
-    top_right_right = Node(None, None, -2)
-    top_right = Node(None, top_right_right, 7)
-    top_node =  Node(top_left, top_right, 5)
+    top_right_right = TreeNode(None, None, -2)
+    top_right = TreeNode(None, top_right_right, 7)
+    top_node =  TreeNode(top_left, top_right, 5)
     display(top_node)
     print("-------------------")
     paths = paths_with_sum(top_node, 10)

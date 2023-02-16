@@ -1,10 +1,10 @@
 from collections import deque
 from display_tree import display
-from node import Node
+from treenode import TreeNode
 from typing import List
 
 
-def level_order_traversal(root: Node) -> List[List[Node]]:
+def level_order_traversal(root: TreeNode) -> List[List[TreeNode]]:
     levels: list = []
     dq = deque()  # FIFO through popleft
     dq.append(root)
@@ -16,7 +16,7 @@ def level_order_traversal(root: Node) -> List[List[Node]]:
         # if there are 3 nodes in the level, then 2nd while loop will execute 3 times, once for each node
         #
         while size > 0:
-            node: Node = dq.popleft()
+            node: TreeNode = dq.popleft()
             # Decrement to exit at level boundary
             size -= 1
             # add left child if exists to dq
@@ -31,7 +31,7 @@ def level_order_traversal(root: Node) -> List[List[Node]]:
 
 
 # bottom-up level order
-def reverse_level_order_traversal(root: Node) -> List[List[Node]]:
+def reverse_level_order_traversal(root: TreeNode) -> List[List[TreeNode]]:
     if root is None:
         return []
     q = deque() # FIFO queue
@@ -65,14 +65,14 @@ def reverse_level_order_traversal(root: Node) -> List[List[Node]]:
 
 
 def test():
-    top_left_right = Node(None, None, 4)
-    top_left = Node(None, top_left_right, 3)
+    top_left_right = TreeNode(None, None, 4)
+    top_left = TreeNode(None, top_left_right, 3)
 
-    top_right_right_left = Node(None, None, 9)
-    top_right_right = Node(top_right_right_left, None, 8)
-    top_right_left = Node(None, None, 6)
-    top_right = Node(top_right_left, top_right_right, 7)
-    top_node =  Node(top_left, top_right, 5)
+    top_right_right_left = TreeNode(None, None, 9)
+    top_right_right = TreeNode(top_right_right_left, None, 8)
+    top_right_left = TreeNode(None, None, 6)
+    top_right = TreeNode(top_right_left, top_right_right, 7)
+    top_node =  TreeNode(top_left, top_right, 5)
     display(top_node)
     print("-------------------")
     print("top down levels")

@@ -5,13 +5,13 @@ A leaf is a node with no children.
 """
 
 from display_tree import display
-from node import Node
+from treenode import TreeNode
 from typing import List
 
 
-def path_sum(root: Node, target: int) -> bool:
+def path_sum(root: TreeNode, target: int) -> bool:
 
-    def check_node_path_sum(node: Node, sum_so_far: int, target_sum: int, has_path_sum: List[bool]):
+    def check_node_path_sum(node: TreeNode, sum_so_far: int, target_sum: int, has_path_sum: List[bool]):
         if node is None:
             return
         # If left node then check if target sum == current cumulative sum
@@ -36,12 +36,12 @@ def path_sum(root: Node, target: int) -> bool:
 """
 
 def test():
-    top_left_left = Node(None, None, 1)
-    top_left_right = Node(None, None, 3)
-    top_left = Node(top_left_left, top_left_right, 2)
+    top_left_left = TreeNode(None, None, 1)
+    top_left_right = TreeNode(None, None, 3)
+    top_left = TreeNode(top_left_left, top_left_right, 2)
 
-    top_right = Node(None, None, 7)
-    top_node =  Node(top_left, top_right, 5)
+    top_right = TreeNode(None, None, 7)
+    top_node =  TreeNode(top_left, top_right, 5)
     display(top_node)
     # print("-------------------")
     # has_path_with_sum = has_path_sum(top_node, 10)
