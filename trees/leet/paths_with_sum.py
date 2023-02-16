@@ -3,8 +3,8 @@ Given the root of a binary tree and an integer targetSum, return all root-to-lea
 in the path equals targetSum. Each path should be returned as a list of the node values, not node references.
 A root-to-leaf path is a path starting from the root and ending at any leaf node. A leaf is a node with no children.
 """
-from display_tree import display
-from treenode import TreeNode
+from util.display_tree import display
+from util.treenode import TreeNode
 from typing import List
 
 

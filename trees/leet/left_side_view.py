@@ -3,9 +3,8 @@ Given the root of a binary tree, imagine yourself standing on the right side of 
 can see ordered from top to bottom.
 """
 
-from collections import deque
-from display_tree import display
-from treenode import TreeNode
+from util.display_tree import display
+from util.treenode import TreeNode
 from typing import List
 
 

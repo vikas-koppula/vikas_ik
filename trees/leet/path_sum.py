@@ -4,8 +4,8 @@ such that adding up all the values along the path equals targetSum.
 A leaf is a node with no children.
 """
 
-from display_tree import display
-from treenode import TreeNode
+from util.display_tree import display
+from util.treenode import TreeNode
 from typing import List
 
 

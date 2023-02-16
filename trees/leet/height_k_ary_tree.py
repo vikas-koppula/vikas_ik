@@ -3,7 +3,6 @@ Given a k-ary tree, find the height of that tree: number of edges in the longest
 A k-ary tree is a rooted tree in which each node has no more than k children.
 """
 
-from display_tree import display
 from typing import List
 
 

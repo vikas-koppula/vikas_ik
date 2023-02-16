@@ -1,6 +1,6 @@
 from collections import deque
-from display_tree import display
-from treenode import TreeNode
+from util.display_tree import display
+from util.treenode import TreeNode
 from typing import List
 
 
