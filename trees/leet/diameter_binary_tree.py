@@ -39,12 +39,6 @@ def diameter_binary_tree(root: TreeNode) -> int:
             max_diameter[0] = dia_of_node
         return max_ht_of_node
 
-        # if node == root:
-        #     print('Arrived at the root node, this is an exit condition')
-        #     print('left_len:', left_len)
-        #     print('right_len:', right_len)
-        #     return left_len + right_len
-        # return max_so_far
     helper(root)
     return max_diameter[0]
 
@@ -55,13 +49,15 @@ def diameter_binary_tree(root: TreeNode) -> int:
        / \
       1   3
 """
+
+
 def test():
     top_left_left = TreeNode(None, None, 1)
     top_left_right = TreeNode(None, None, 3)
     top_left = TreeNode(top_left_left, top_left_right, 2)
 
     top_right = TreeNode(None, None, 7)
-    top_node =  TreeNode(top_left, top_right, 5)
+    top_node = TreeNode(top_left, top_right, 5)
     display(top_node)
     print("-------------------")
     diameter = diameter_binary_tree(top_node)
