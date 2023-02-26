@@ -11,22 +11,45 @@ from typing import List
 
 def path_sum(root: TreeNode, target: int) -> bool:
 
-    def check_node_path_sum(node: TreeNode, sum_so_far: int, target_sum: int, has_path_sum: List[bool]):
-        if node is None:
-            return
-        # If left node then check if target sum == current cumulative sum
-        sum_so_far += node.val
-        if node.left is None and node.right is None:
-            if target_sum == sum_so_far:
-                has_path_sum[0] = True
-                return
-        check_node_path_sum(node.left, sum_so_far, target_sum, has_path_sum)
-        if has_path_sum[0] is False:
-            check_node_path_sum(node.right, sum_so_far, target_sum, has_path_sum)
+    path_sum_found: list = [False]
 
-    has_path_sum: List[bool] = [False]
-    check_node_path_sum(root, 0, target, has_path_sum)
-    return has_path_sum[0]
+    # def check_node_path_sum(node: TreeNode, sum_so_far: int, target_sum: int, has_path_sum: List[bool]):
+    #     if node is None:
+    #         return
+    #     # If left node then check if target sum == current cumulative sum
+    #     sum_so_far += node.val
+    #     if node.left is None and node.right is None:
+    #         if target_sum == sum_so_far:
+    #             has_path_sum[0] = True
+    #             return
+    #     check_node_path_sum(node.left, sum_so_far, target_sum, has_path_sum)
+    #     if has_path_sum[0] is False:
+    #         check_node_path_sum(node.right, sum_so_far, target_sum, has_path_sum)
+    # has_path_sum: List[bool] = [False]
+    # check_node_path_sum(root, 0, target, has_path_sum)
+    # return has_path_sum[0]
+    def helper(node: TreeNode, minus_so_far: int):
+        if node is None:
+            return False
+        curr = minus_so_far - node.val
+        if node.left is None and node.right is None:
+            if curr == 0:
+                path_sum_found[0] = True
+            return
+        # left sub_tree call
+        helper(node.left, curr)
+        # right sub_tree call
+        if path_sum_found[0] is False:
+            helper(node.right, curr)
+
+    helper(root, target)
+    return path_sum_found[0]
+
+
+
+
+
+
 
 """       5
          / \

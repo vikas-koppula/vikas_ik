@@ -1,12 +1,6 @@
 from util.treenode import TreeNode
 
 
-def display(node: TreeNode):
-    lines, *_ = _display_aux(node)
-    for line in lines:
-        print(line)
-
-
 def _display_aux(node: TreeNode):
     """Returns list of strings, width, height, and horizontal coordinate of the root."""
     # No child.
@@ -54,3 +48,33 @@ def _display_aux(node: TreeNode):
     lines = [first_line, second_line] + \
         [a + u * ' ' + b for a, b in zipped_lines]
     return lines, n + m + u, max(p, q) + 2, n + u // 2
+
+
+def display(node: TreeNode):
+    lines, *_ = _display_aux(node)
+    for line in lines:
+        print(line)
+
+
+def insertLevelOrder(arr, i, n):
+    root = None
+    # Base case for recursion
+    if i < n:
+        root = TreeNode(None, None, arr[i])
+
+        # insert left child
+        root.left = insertLevelOrder(arr, 2 * i + 1, n)
+
+        # insert right child
+        root.right = insertLevelOrder(arr, 2 * i + 2, n)
+
+    return root
+
+
+# Driver Code
+if __name__ == '__main__':
+    arr = [1, 2, 3, 4, 5, 6, 6, 6, 6]
+    n = len(arr)
+    root = None
+    root = insertLevelOrder(arr, 0, n)
+    display(root)
