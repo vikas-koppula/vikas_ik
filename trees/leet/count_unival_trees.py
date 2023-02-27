@@ -19,29 +19,36 @@ from util.display_tree import display, insertLevelOrder
 from util.treenode import TreeNode
 from typing import List, Optional
 
+
 def count_unival_subtrees(root: TreeNode) -> int:
+    global_count: List[int] = [0]
+    if root is None:
+        return 0
+
     def helper(node: TreeNode):
         # Leaf Node is always unival, hence return 1
         if node.left is None and node.right is None:
-            return 1, True
+            global_count[0] = global_count[0] + 1
+            return True
         # Recursive node case. Need if node itself is a unival subtree and how many unival subtrees under it are there
+        am_unival = True
         # LH
         if node.left is not None:
-            num_lh_subtrees, is_lh_unival = helper(node.left)
-
+            is_lh_unival = helper(node.left)
+            if not is_lh_unival or node.left.val != node.val:
+                am_unival = False
         # RH
         if node.right is not None:
-            num_rh_subtrees, is_rh_unival = helper(node.right)
-        if is_lh_unival is True & num_rh_subtrees is True & node.val == node.left.val & node.val == node.right.val:
-            sum_node_unival_subtrees = num_lh_subtrees + num_rh_subtrees + 1
-            is_node_unival = True
-        else:
-            sum_node_unival_subtrees = num_lh_subtrees + num_rh_subtrees
-            is_node_unival = False
+            is_rh_unival = helper(node.right)
+            if not is_rh_unival or node.right.val != node.val:
+                am_unival = False
 
-        return sum_node_unival_subtrees, is_node_unival
-    cnt_unival_trees, _ = helper(root)
-    return cnt_unival_trees
+        if am_unival:
+            global_count[0] = global_count[0] + 1
+
+        return am_unival
+    is_root_unival = helper(root)
+    return global_count[0]
 
 
 def test():
