@@ -29,3 +29,36 @@ from typing import List
 
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums = sorted(nums)
+        print("sorted nums:", nums)
+        ans: List[List[int]] = []
+        # Iterate from left, leaving the two right most positions for l and r
+        for i in range(len(nums)-2):
+            if nums[i] > 0:
+                break
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+            lft = i+1
+            rgt = len(nums)-1
+            while lft < rgt:
+                total = nums[i] + nums[lft] + nums[rgt]
+                if total < 0:
+                    # Total less than zero indicates that we need to increase the total, thereby move lft pointer
+                    lft += 1
+                elif total > 0:
+                    # Total greater than zero, indicates that we need to decrease the total, hence move rgt pointer
+                    rgt -= 1
+                elif total == 0:
+                    answer = [nums[i], nums[lft], nums[rgt]]
+                    ans.append(answer)
+                    while lft < rgt and nums[lft] == answer[1]:
+                        lft += 1
+                    while lft < rgt and nums[rgt] == answer[2]:
+                        rgt -= 1
+        return ans
+
+
+sol = Solution()
+nums = [-1, 0, 1, 2, -1, -4]
+print("nums:", nums)
+print("sol:", sol.threeSum(nums))
