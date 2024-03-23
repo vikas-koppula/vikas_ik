@@ -39,10 +39,9 @@ def subsets_2(orig_nums: List[int]) -> List[List[int]]:
             helper(arr, i + char_count, slate)
             # [slate.pop() for _ in range(1, cnt+1)]
             [slate.pop() for _ in cnt*[arr[i]]]
-        char_count = num_char_count(nums, i)
     helper(nums, 0, [])
     return result
 
 
-test = [1, 2, 2]
+test = [1, 1, 2]
 print('Answer:', subsets_2(test))
