@@ -27,4 +27,41 @@ from typing import List
 
 
 class Solution:
-    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        result: List[List[int]] = list()
+
+        def helper(arr: List[int], i: int, slate: List[int]):
+            # Backtracking case 1
+            if sum(slate) == target:
+                result.append(slate[:])
+                return
+            # Backtracking case 2
+            if sum(slate) > target:
+                return
+            # Base/leaf case
+            if i == len(candidates):
+                return
+            cnt = 1
+            # Exclude
+            helper(arr, i + 1, slate)
+            # Include n times as long as sum(slate+ n appends) < target
+            while True:
+                [slate.append(x) for x in cnt*[arr[i]]]
+                sum_slate = sum(slate)
+                helper(arr, i+1, slate)
+                [slate.pop() for _ in cnt * [arr[i]]]
+                cnt += 1
+                if sum_slate >= target:
+                    break
+
+        helper(candidates, 0, [])
+        return result
+
+
+sol = Solution()
+print('\n.........Test_Case_1...........')
+candidates = [2, 3, 6, 7]
+target = 7
+print("candidates:", candidates)
+print("target:", target)
+print('Combination Sum: ', sol.combinationSum(candidates, target))
