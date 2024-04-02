@@ -1,11 +1,16 @@
 #from util.display_tree import display
 
-
 class TreeNode:
     def __init__(self, left, right, val):
         self.left = left
         self.right = right
         self.val = val
+
+    def set_left(self, left) -> None:
+        self.left = left
+
+    def set_right(self, right) -> None:
+        self.right = right
 
 
 # class TreeNode:
@@ -37,6 +42,24 @@ def inOrder(root):
         inOrder(root.left)
         print(root.val, end=" ")
         inOrder(root.right)
+
+
+def build_tree(input):
+    if len(input) == 0:
+        return input
+    root = TreeNode(None, None, input[0])
+    tree_lookup = {1: root}
+    for i in range(1, len(input[1:]) + 1):
+        node_num = i + 1
+        parent_idx = int(node_num / 2)
+        parent: TreeNode = tree_lookup[parent_idx]
+        curr: TreeNode = TreeNode(None, None, input[i])
+        tree_lookup[node_num] = curr
+        if node_num % 2 == 0 and curr.val is not None:
+            parent.set_left(curr)
+        if node_num % 2 == 1 and curr.val is not None:
+            parent.set_right(curr)
+    return root
 
 
 # Driver Code
