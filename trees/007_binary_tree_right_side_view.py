@@ -22,3 +22,34 @@ from typing import List, Optional
 
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        result: List[int] = list()
+        dq = deque()
+        if root is None:
+            return []
+        dq.append(root)
+        while bool(dq):
+            lvl_cnt = len(dq)
+            rigth_most: int = 0
+            for _ in range(lvl_cnt):
+                node: TreeNode = dq.popleft()
+                rigth_most = node.val
+                if node.left is not None:
+                    dq.append(node.left)
+                if node.right is not None:
+                    dq.append(node.right)
+            result.append(rigth_most)
+        return result
+
+
+sol = Solution()
+
+print('.........Test_Case_1...........')
+input = [1,2,3,None,5,None,4]
+display(build_tree(input))
+root = build_tree(input)
+print('Level Order:\n', sol.rightSideView(root))
+print('.........Test_Case_2...........')
+input = [1,None,3]
+display(build_tree(input))
+root = build_tree(input)
+print('Level Order:\n', sol.rightSideView(root))

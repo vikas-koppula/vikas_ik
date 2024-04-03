@@ -43,29 +43,6 @@ class Solution:
         return result
 
 
-# bottom-up level order
-def reverse_level_order_traversal(root: TreeNode) -> List[List[TreeNode]]:
-    if root is None:
-        return []
-    q = deque() # FIFO queue
-    q.append(root)
-    levels = []
-    while q:
-        size = len(q)
-        level = []
-        while size > 0:
-            size -= 1
-            node = q.popleft()
-            level.append(node.val)
-            if node.left is not None:
-                q.append(node.left)
-            if node.right is not None:
-                q.append(node.right)
-        levels.append(level)
-    levels.reverse()
-    return levels
-
-
 """       5
          / \
         /   \
@@ -78,8 +55,6 @@ def reverse_level_order_traversal(root: TreeNode) -> List[List[TreeNode]]:
 
 
 sol = Solution()
-
-
 
 print('.........Test_Case_1...........')
 input = [3,9,20,None,None,15,7]
