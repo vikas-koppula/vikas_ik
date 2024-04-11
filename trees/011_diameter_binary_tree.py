@@ -17,5 +17,36 @@ from util.display_tree import display
 from util.treenode import TreeNode, build_tree
 from typing import List, Optional
 
+
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        max_diameter: List[int] = [0]
+
+        def helper(node: TreeNode):
+            if node.left is None and node.right is None:
+                return 0
+
+            # LH
+            left_len = 1 + helper(node.left) if bool(node.left) else 0
+            # RH
+            right_len = 1 + helper(node.right) if bool(node.right) else 0
+            print('node:', node.val)
+            print('...............')
+            print('left_len', left_len)
+            print('right_len:', right_len)
+            max_ht_of_node = max(left_len, right_len)
+            dia_of_node = left_len + right_len
+            if dia_of_node > max_diameter[0]:
+                max_diameter[0] = dia_of_node
+            return max_ht_of_node
+
+        helper(root)
+        return max_diameter[0]
+
+
+sol = Solution()
+print('.........Test_Case_1...........')
+input = [1, 2, 3, 4, 5]
+display(build_tree(input))
+root = build_tree(input)
+print('Diameter:\n', sol.diameterOfBinaryTree(root))
