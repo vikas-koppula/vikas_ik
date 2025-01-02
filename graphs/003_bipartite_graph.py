@@ -50,7 +50,8 @@ class Solution:
                         if level_list[nbr] == level_list[node]:
                             return False
             return True
-
+        # Outer loop is important as we need to make sure that if there are multiple connected components,
+        # then all those graphs are still bipartite
         for x in range(n):
             if parent_list[x] == -1:
                 if bfs_check(x) is False:
