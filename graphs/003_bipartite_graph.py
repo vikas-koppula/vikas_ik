@@ -12,98 +12,61 @@ A graph is bipartite if the nodes can be partitioned into two independent sets A
 graph connects a node in set A and a node in set B
 """
 from collections import deque
-from typing import List, Set, Deque
+from typing import List, Deque
 
 
-def is_bipartite_graph(adj_list: List[List[int]]):
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        n = len(graph)
+        # Distance or level list is needed to detemine the distance of a vertex from the root node
+        #level_list: List[int] = [0] * n
+        parent_list: List[int] = [-1] * n
+        # Adjacency list isnt needed as it has been provided already
 
-    visited: List[int] = [-1] * len(adj_list)
-    num_connected: int = 0
-    parent_list: List[int] = [-1] * len(adj_list)
-    length_list: List[int] = [0] * len(adj_list)
+        def bfs_check(root: int):
 
-    def bfs_traversal(source: int):
-        visited[source] = 1
-        dq: Deque = deque()
-        dq.appendleft(source)
+            level_list: List[int] = [0] * n
+            # Set the root vertex as level 0
+            level_list[root] = 0
+            # Root vertex cannot have a parent, hence set it to itself. Otherwise code doesnt work, as it will be
+            # considered as not visited, which isn't accurate
+            parent_list[root] = root
+            dq: Deque = deque()
+            dq.appendleft(root)
 
-        while bool(dq):
-            popped_node = dq.pop()
-            print("Popped node:", str(popped_node))
-            for nbh in adj_list[popped_node]:
-                print("nbh = ", str(nbh))
-                if visited[nbh] == -1:
-                    visited[nbh] = 1
-                    dq.appendleft(nbh)
-                    print(str(nbh) + " is a tree node, to" + str(popped_node))
-                    parent_list[nbh] = popped_node
-                    length_list[nbh] = length_list[popped_node] + 1
-                    print("length nbh:" + str(length_list[nbh]) + " length popped:" + str(length_list[popped_node]))
-                elif parent_list[popped_node] == nbh:
-                    print("nbh is parent of the popped node")
-                else:
-                    # This is a cross edge
-                    print("This is a cross edge, check even cycle or odd cycle")
-                    if length_list[nbh] == length_list[popped_node]:
-                        print("length nbh:" + str(length_list[nbh]) + " length popped:" + str(length_list[popped_node]))
-                        print("This is an odd cycle, hence graph cannot be bipartite")
-                        return False
+            while bool(dq):
+                node = dq.pop()
+                for nbr in graph[node]:
+                    # Parent not being set for the nbr indicates that the nbr is being visited for the first time
+                    if parent_list[nbr] == -1:
+                        parent_list[nbr] = node
+                        level_list[nbr] = level_list[node] + 1
+                        dq.appendleft(nbr)
+                    elif parent_list[node] == nbr:
+                        None
                     else:
-                        print("length nbh:" + str(length_list[nbh]) + " length popped:" + str(length_list[popped_node]))
-                        print("This is an even cycle, hence graph can be bipartite")
-        # return true indicates that no odd cycle was detected
+                        # Cycle exists
+                        # Bipartite if an odd cycle
+                        if level_list[nbr] == level_list[node]:
+                            return False
+            return True
+
+        for x in range(n):
+            if parent_list[x] == -1:
+                if bfs_check(x) is False:
+                    return False
         return True
-    for node in range(len(adj_list)):
-        if visited[node] == -1:
-            is_bipartite: bool = bfs_traversal(node)
-            # If any of the connected components are not bipartite, then the whole graph is not bipartite
-            if is_bipartite is False:
-                print("Return False as graph is not bipartite with source node:", node)
-                return False
-    return True
 
+sol = Solution()
+graph_1 = [[1,2,3],[0,2],[0,1,3],[0,2]]
+graph_2 = [[1,3],[0,2],[1,3],[0,2]]
+graph_3 = [[3],[2,4],[1],[0,4],[1,3]]
 
-def test():
-    # Case 1
-    adj_list = [[1, 2], [0], [0]]
-    """
-    1
-    |
-    0 -- 2
-    """
-    case_1 = is_bipartite_graph(adj_list=adj_list)
-    print("case 1 is bipartite:", case_1)
-    print('...............................................................................')
-    # Case 2
-    adj_list = [[1, 2], [0], [1]]
-    """
-    1
-    |  \
-    0 -- 2
-    """
-    case_2 = is_bipartite_graph(adj_list=adj_list)
-    print("case 2 is bipartite:", case_2)
-    print('...............................................................................')
-    # Case 3
-    adj_list = [[1, 3], [0, 2], [1, 3], [0, 2]]
-    """
-    0----1
-    |    |
-    3----2
-    """
-    case_3 = is_bipartite_graph(adj_list=adj_list)
-    print("case 3 is bipartite:", case_3)
-    print('...............................................................................')
-    # Case 4
-    adj_list = [[1, 2, 3], [0, 2], [0, 1, 3], [0, 2]]
-    """
-    0----1
-    |  \ |
-    3----2
-    """
-    case_4 = is_bipartite_graph(adj_list=adj_list)
-    print("case 4 is bipartite:", case_4)
+print("graph 1:", graph_1)
+print("sol:", sol.isBipartite(graph_1))
 
+print("graph 2:", graph_2)
+print("sol:", sol.isBipartite(graph_2))
 
-if __name__ == "__main__":
-    test()
+print("graph 3:", graph_3)
+print("sol:", sol.isBipartite(graph_3))
