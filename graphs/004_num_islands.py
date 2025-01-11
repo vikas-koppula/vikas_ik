@@ -24,36 +24,43 @@ Output: 3
 """
 
 from collections import deque
-from typing import List, Set, Deque
+from typing import List, Set, Deque, Tuple
 
 
-def num_islands(grid: List[List[str]]):
-    visited: Set = set()
-    num = 0
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        visited: Set[Tuple[int,int]] = set()
+        num_islands = 0
 
-    def get_nbrs(m: int, n: int, grid):
-        nbrs = [(x, y) for x, y in [(m - 1, n), (m, n + 1), (m + 1, n), (m, n - 1)]
-                if int(x) in range(len(grid)) and int(y) in range(len(grid[0]))]
-        return nbrs
+        def get_nbrs(m: int, n: int, grid):
+            nbrs = []
+            if m - 1 >= 0:
+                nbrs.append((m - 1, n))
+            if n - 1 >= 0:
+                nbrs.append((m, n - 1))
+            if m + 1 <= len(grid) - 1:
+                nbrs.append((m + 1, n))
+            if n + 1 <= len(grid[0]) - 1:
+                nbrs.append((m, n + 1))
+            return nbrs
 
-    def bfs(x: int, y: int):
-        dq: Deque = deque()
-        dq.appendleft((x, y))
-        visited.add((x, y))
-        while bool(dq):
-            a, b = dq.pop()
-            for m, n in get_nbrs(a, b, grid):
-                if (m, n) not in visited and grid[m][n] == "1":
-                    visited.add((m, n))
-                    dq.appendleft((m, n))
+        def bfs(x: int, y: int):
+            visited.add((x, y))
+            dq: Deque = deque()
+            dq.appendleft((x,y))
+            while bool(dq):
+                m, n = dq.pop()
+                for a,b in get_nbrs(m, n, grid):
+                    if (a, b) not in visited and grid[a][b] == "1":
+                        visited.add((a, b))
+                        dq.appendleft((a, b))
 
-    for x in range(len(grid)):
-        for y in range(len(grid[0])):
-            if (x, y) not in visited and grid[x][y] == "1":
-                bfs(x, y)
-                num += 1
-
-    return num
+        for x in range(len(grid)):
+            for y in range(len(grid[0])):
+                if (x, y) not in visited and grid[x][y] == "1":
+                    num_islands+=1
+                    bfs(x, y)
+        return num_islands
 
 
 grid_1 = [
@@ -62,7 +69,6 @@ grid_1 = [
     ["1", "1", "0", "0", "0"],
     ["0", "0", "0", "0", "0"]
 ]
-print("case 1 num islands:", num_islands(grid_1))
 
 grid_2 = [
     ["1", "1", "0", "0", "0"],
@@ -70,4 +76,12 @@ grid_2 = [
     ["0", "0", "1", "0", "0"],
     ["0", "0", "0", "1", "1"]
 ]
-print("case 2 num islands:", num_islands(grid_2))
+
+
+sol = Solution()
+
+print("Grid 1:", grid_1)
+print("sol:", sol.numIslands(grid_1))
+
+print("Grid 2:", grid_2)
+print("sol:", sol.numIslands(grid_2))
