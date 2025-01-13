@@ -85,3 +85,5 @@ print("sol:", sol.snakesAndLadders(grid_1))
 print("Grid 2:", grid_2)
 print("sol:", sol.snakesAndLadders(grid_2))
 
+print("Grid 3:", grid_3)
+print("sol:", sol.snakesAndLadders(grid_3))
