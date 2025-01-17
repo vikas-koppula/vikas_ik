@@ -39,6 +39,21 @@ def valid_graph(n: int, edges: List[list]):
     # cross edge if that node is the parent of the current node.
     parent_list: List[int] = [-1] * n
 
+    def dfs_cycle_check(root: int):
+        visited[root] = 1
+
+        print("Current Node:", str(root))
+        for nbr in adj_list[root]:
+            if visited[nbr] != 1:
+                parent_list[nbr] = root
+                dfs_cycle_check(nbr)
+            elif parent_list[root] == nbr:
+                print("Do nothing," + str(nbr) + " is the parent of current node" + str(root))
+            else:
+                print("Cross edge. " + str(nbr) + " already visited before current node:" + str(root))
+                return False
+        return True
+
     def bfs_traversal(src_vertex: int):
         # Mark this node as visited, this will be the source node of the traversal
         visited[src_vertex] = 1
@@ -71,7 +86,7 @@ def valid_graph(n: int, edges: List[list]):
         # If there is only one connected graph, then the bfs traversal will be invoked just once
         if visited[node] != 1:
             # BFS Traversal
-            graph_no_cycle = bfs_traversal(src_vertex=node)
+            graph_no_cycle = dfs_cycle_check(node)
             if graph_no_cycle is False:
                 return False
             num_connected += 1
@@ -80,12 +95,12 @@ def valid_graph(n: int, edges: List[list]):
 
 
 def test():
-    # # Case 1
-    # n = 5
-    # edges = [[0, 1], [0, 2], [0, 3], [1, 4]]
-    #
-    # case_1 = valid_graph(n=5, edges=edges)
-    # print("case 1 valid graph:", case_1)
+    # Case 1
+    n = 5
+    edges = [[0, 1], [0, 2], [0, 3], [1, 4]]
+
+    case_1 = valid_graph(n=5, edges=edges)
+    print("case 1 valid graph:", case_1)
 
     # Case 2
     n = 5
