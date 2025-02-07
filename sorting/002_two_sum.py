@@ -6,25 +6,27 @@
 # Output: Because nums[0] + nums[1] == 9, we return [0, 1].
 from typing import List, Tuple
 
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        # Transform to tuple as we need to maintain the original positions of the elements
+        nums_tuple = [(x,i) for i,x in enumerate(nums, 0)]
+        sorted_tuple = sorted(nums_tuple, key=lambda x:x[0])
+        l = 0
+        r = len(nums)-1
+        # Exit while loop if both the left and right index arrive at the same item in the array
+        while l < r:
+            if sorted_tuple[l][0] + sorted_tuple[r][0] == target:
+                return [sorted_tuple[l][1], sorted_tuple[r][1]]
+            elif sorted_tuple[l][0] + sorted_tuple[r][0] < target:
+                l+=1
+            elif sorted_tuple[l][0] + sorted_tuple[r][0] > target:
+                r-=1
+        # Return null array as the target hasnt been found
+        return []
 
-def twoSum(nums: List[int], target: int) -> List[int]:
-    new_nums: List[Tuple[int, int]] = list()
-    for i in range(0, len(nums)):
-        new_nums.append((nums[i], i))
-    sorted_new_nums = sorted(new_nums, key=lambda x: x[0])
-    left: int = 0
-    right: int = len(nums)-1
-    while left < right:
-        if sorted_new_nums[left][0] + sorted_new_nums[right][0] == target:
-            return [sorted_new_nums[left][1], sorted_new_nums[right][1]]
-        elif sorted_new_nums[left][0] + sorted_new_nums[right][0] > target:
-            right -= 1
-        elif sorted_new_nums[left][0] + sorted_new_nums[right][0] < target:
-            left += 1
-    return []
 
-
-nums = [2, 7, 11, 15]
+nums_1 = [2, 7, 11, 15]
 target = 9
-
-print(twoSum(nums, target))
+sol = Solution()
+print("Nums 1:", nums_1)
+print("sol:", sol.twoSum(nums_1, target))

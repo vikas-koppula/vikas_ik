@@ -52,6 +52,7 @@ import random
 from typing import List, Set, Deque
 
 class Solution:
+
     def sortArray(self, nums: List[int]) -> List[int]:
         aux = [0] * len(nums)
         def helper(st: int, end:int):
