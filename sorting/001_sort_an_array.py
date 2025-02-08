@@ -18,36 +18,34 @@ Explanation: Note that the values of nums are not necessairly unique.
 import random
 
 
-# def quick_sort_impl(arr: list[int]):
-#
-#     def helper(orig_arr: list[int], start_idx: int, end_idx: int) -> None:
-#         # Return if partition is empty (start idx or end idx chosen as pivot) or if partition has just one element
-#         if start_idx >= end_idx:
-#             return
-#
-#         pivot_idx = random.randint(start_idx, end_idx)
-#         pivot = orig_arr[pivot_idx]
-#         # print('pivot_idx:', pivot_idx)
-#         # print('pivot:', pivot)
-#         # Swap the first element with the pivot element, thus the pivot is the first position
-#         orig_arr[start_idx], orig_arr[pivot_idx] = orig_arr[pivot_idx], orig_arr[start_idx]
-#         small: int = start_idx
-#         # Walk the big pointer from left to right, and create orange(small) and green(big) sections
-#         for big in range(start_idx+1, end_idx+1):
-#             if orig_arr[big] < pivot:
-#                 # Move forward the small pointer. It will land on the big nums space
-#                 small += 1
-#                 # Swap the identified small num with the big num that the small idx landed on in the previous line
-#                 orig_arr[small], orig_arr[big] = orig_arr[big], orig_arr[small]
-#         # Swap the pivot in the start idx with the last idx of the orange partition
-#         # Pivot is now in its correct and final sorted position
-#         orig_arr[start_idx], orig_arr[small] = orig_arr[small], orig_arr[start_idx]
-#         # Call helper recursive call on the orange(small) and green(big) sections
-#         helper(orig_arr, start_idx, small-1)
-#         helper(orig_arr, small+1, end_idx)
-#
-#     helper(arr, 0, len(arr)-1)
-#     return arr
+def quick_sort_impl(arr: list[int]):
+
+    def helper(orig_arr: list[int], start_idx: int, end_idx: int) -> None:
+        # Return if partition is empty (start idx or end idx chosen as pivot) or if partition has just one element
+        if start_idx >= end_idx:
+            return
+
+        pivot_idx = random.randint(start_idx, end_idx)
+        pivot = orig_arr[pivot_idx]
+        # Swap the first element with the pivot element, thus the pivot is the first position
+        orig_arr[start_idx], orig_arr[pivot_idx] = orig_arr[pivot_idx], orig_arr[start_idx]
+        small: int = start_idx
+        # Walk the big pointer from left to right, and create orange(small) and green(big) sections
+        for big in range(start_idx+1, end_idx+1):
+            if orig_arr[big] < pivot:
+                # Move forward the small pointer. It will land on the big nums space
+                small += 1
+                # Swap the identified small num with the big num that the small idx landed on in the previous line
+                orig_arr[small], orig_arr[big] = orig_arr[big], orig_arr[small]
+        # Swap the pivot in the start idx with the last idx of the orange partition
+        # Pivot is now in its correct and final sorted position
+        orig_arr[start_idx], orig_arr[small] = orig_arr[small], orig_arr[start_idx]
+        # Call helper recursive call on the orange(small) and green(big) sections
+        helper(orig_arr, start_idx, small-1)
+        helper(orig_arr, small+1, end_idx)
+
+    helper(arr, 0, len(arr)-1)
+    return arr
 
 from typing import List, Set, Deque
 

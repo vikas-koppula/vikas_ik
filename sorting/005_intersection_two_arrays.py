@@ -28,6 +28,8 @@ class Solution:
             elif arr2[idx2] < arr1[idx1]:
                 idx2 += 1
             elif arr2[idx2] == arr1[idx1]:
+                # Important: Checking for dups at the time of inserting to the result is much easier to handle
+                # Trying to check previous element for dups is kinda tricky and needs lots of conditions
                 if len(result) == 0 or result[-1] != arr1[idx1]:
                     result.append(arr1[idx1])
                 idx1 += 1
