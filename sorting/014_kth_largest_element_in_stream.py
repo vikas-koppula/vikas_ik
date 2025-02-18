@@ -22,3 +22,23 @@ kthLargest.add(10);  // return 5
 kthLargest.add(9);   // return 8
 kthLargest.add(4);   // return 8
 """
+import heapq
+class KthLargest(object):
+    def __init__(self, k, nums):
+        self.k = k
+        self.minheap = nums
+        heapq.heapify(self.minheap)
+
+        while len(self.minheap) > self.k:
+            heapq.heappop(self.minheap)
+
+    def __add__(self, val) -> int:
+        if len(self.minheap) < self.k:
+            heapq.heappush(self.minheap, val)
+            return self.minheap[0]
+        elif val <= self.minheap[0]:
+            return self.minheap[0]
+        else:
+            heapq.heappush(self.minheap, val)
+            heapq.heappop(self.minheap)
+            return self.minheap[0]
