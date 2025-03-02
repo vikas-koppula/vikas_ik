@@ -19,14 +19,17 @@ class Solution:
         result: List[List[int]] = list()
 
         def helper(arr:List[int], i:int, slate:List[int]) -> None:
+            # Need to keep track of elements seen in this recursion level
             element_set: Set[int] = set()
             if i == len(arr):
                 result.append(slate[:])
                 return
             for tmp in range(i, len(arr)):
+                # If the element has been seen before in this recursion level, then skip
                 if arr[tmp] in element_set:
                     continue
                 else:
+                    # IMPORTANT: Make sure to add the new element to the seen array
                     element_set.add(arr[tmp])
                 arr[i], arr[tmp] = arr[tmp], arr[i]
                 slate.append(arr[i])
