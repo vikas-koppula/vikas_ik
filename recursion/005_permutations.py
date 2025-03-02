@@ -27,6 +27,7 @@ class Solution:
             for tmp in range(i, len(arr)):
                 # Swap i and tmp to set the tmp element at i
                 arr[i], arr[tmp] = arr[tmp], arr[i]
+                # IMPORTANT: Need to append using i and not tmp. Appending using tmp will lead to dups due to the swap
                 slate.append(arr[i])
                 helper(arr, i+1, slate)
                 slate.pop()
