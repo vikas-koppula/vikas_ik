@@ -20,44 +20,27 @@ from typing import List
 
 class Solution:
     def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
-
         result: List[List[int]] = list()
         nums = sorted(candidates)
-
-        def num_char_count(arr: List[int], idx: int):
-            next_idx = idx + 1
-            while next_idx < len(arr) and arr[idx] == arr[next_idx]:
-                next_idx += 1
-            return next_idx - idx
-
-        def helper(arr: List[int], i: int, slate: List[int]):
-            # Backtracking Case 1
-            slate_sum = sum(slate)
-            if slate_sum == target:
-                result.append(slate[:])
-                return
-            # Backtracking Case 2
-            elif slate_sum > target:
-                return
-            # Base case: This is needed without which recursion goes to infinity, because of all exclude cases
+        def helper(i: int, slate: List[int]):
+            # Leaf / Exit condition
             if i == len(nums):
                 return
+            # Sum exceed exit condition
+            if sum(slate) > target:
+                return
+            # Backtracking case
+            if sum(slate) == target:
+                result.append(slate[:])
+                return
+            # Exclude
+            helper(i + 1, slate)
+            # Include
+            slate.append(nums[i])
+            helper(i+1, slate)
+            slate.pop()
 
-            # Rest follows as is from subsets 2 problem
-            char_count = num_char_count(nums, i)
-
-            # Exclusion
-            helper(arr, i + char_count, slate)
-
-            # Inclusion from 1 to num of dup chars. Eg: 1,2,2,3. Will need case for one 2 and two 2s
-            for cnt in range(1, char_count + 1):
-                # slate = slate + (cnt*arr[i])
-                [slate.append(x) for x in cnt * [arr[i]]]
-                helper(arr, i + char_count, slate)
-                # [slate.pop() for _ in range(1, cnt+1)]
-                [slate.pop() for _ in cnt * [arr[i]]]
-
-        helper(nums, 0, [])
+        helper(0, [])
         return result
 
 

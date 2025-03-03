@@ -14,32 +14,39 @@ Input: n = 1, k = 1
 Output: [[1]]
 Explanation: There is 1 choose 1 = 1 total combination.
 """
+from typing import List
+# Ordering doesn't matter. Thus, we need to use the subsets framework (exclude include).
+# Backtracking case: Return on length of slate == k
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        result: List[List[int]] = list()
+        def helper(i: int, slate: List[int]):
+            # Base case: Important: Needed, without which recursion goes to infinity, because of all exclude cases
+            if i == n+1:
+                return
+            # backtrack (filter) which stops the recursion at the node where slate reaches 2 elements
+            # Backtrack condition has to be based on length and not i == k+1, as i will increment for exclusion cases
+            if len(slate) == k:
+                result.append(slate[:])
+                return
+            # exclude
+            helper(i+1, slate)
+            # include
+            slate.append(i+1)
+            helper(i+1, slate)
+            slate.pop()
 
+        helper(0, [])
+        return result
 
-def combinations(n: int, k: int):
-    result: list = []
+sol = Solution()
 
-    def helper(i: int, slate: list):
+print('\n.........Test_Case_1...........')
+n = 4
+k = 2
+print('Combinations: ', sol.combine(n, k))
 
-        # backtrack (filter) which stops the recursion at the node where slate reaches 2 elements
-        if len(slate) == k:
-            result.append(slate[:])
-            return
-        # Base case: Important: This is needed without which recursion goes to infinity, because of all exclude cases
-        if i == n+1:
-            return
-
-        # exclude
-        helper(i+1, slate)
-        # include
-        slate.append(i)
-        helper(i+1, slate)
-        slate.pop()
-
-    helper(i=1, slate=[])
-    return result
-
-
-n1 = 4
-k1 = 2
-print('Answer:', combinations(n1, k1))
+print('\n.........Test_Case_2...........')
+n = 1
+k = 1
+print('Combinations: ', sol.combine(n, k))
