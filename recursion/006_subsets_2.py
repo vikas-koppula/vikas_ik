@@ -11,37 +11,58 @@ Output: [[],[1],[1,4],[1,4,4],[1,4,4,4],[1,4,4,4,4],[4],[4,4],[4,4,4],[4,4,4,4]]
 """
 from typing import List
 
+# Subsets 2: Include and exclude. The order doesn't matter. No duplicate subsets. Include multiple times based on dups.
+class Solution:
+    def subsetsWithDup(self, orig_nums: List[int]) -> List[List[int]]:
+        result: List[List[int]] = list()
+        # Sort is needed in order to count the adjacent duplicates
+        nums = sorted(orig_nums)
 
-def subsets_2(orig_nums: List[int]) -> List[List[int]]:
-    result: List[List[int]] = list()
-    nums = sorted(orig_nums)
+        # Count the number of adjacent duplicates
+        def char_count(idx: int) -> int:
+            count: int = 1
+            next_idx = idx + 1
+            while next_idx < len(nums) and nums[idx] == nums[next_idx]:
+                count += 1
+                next_idx += 1
+            return count
 
-    def num_char_count(arr: List[int], idx: int):
-        next_idx = idx + 1
-        while next_idx < len(arr) and arr[idx] == arr[next_idx]:
-            next_idx += 1
-        return next_idx - idx
+        def helper(i: int, slate: List[int]):
+            # Exit condition
+            if i == len(nums):
+                result.append(slate[:])
+                return
+            # Get count of repetitions
+            count: int = char_count(i)
 
-    def helper(arr: List[int], i: int, slate: List[int]):
-        if i == len(nums):
-            result.append(slate[:])
-            return
+            # Exclude condition
+            # IMPORTANT: need to increment i by count and not just +1
+            helper(i + count, slate)
 
-        char_count = num_char_count(nums, i)
+            # Include based on char count
+            for cnt in range(1, count + 1):
+                # Needed to include once, twice and more, based on the number of duplicates. Includes depend on current value of cnt
+                [slate.append(x) for x in cnt * [nums[i]]]
+                # IMPORTANT: need to increment i by count and not cnt. Using cnt will result in duplicate sets
+                helper(i + count, slate)
+                # Pop once, twice and more, based on the number of duplicates
+                [slate.pop() for _ in cnt * [nums[i]]]
 
-        # Exclusion
-        helper(arr, i+char_count, slate)
-
-        # Inclusion from 1 to num of dup chars. Eg: 1,2,2,3. Will need case for one 2 and two 2s
-        for cnt in range(1, char_count+1):
-            # slate = slate + (cnt*arr[i])
-            [slate.append(x) for x in cnt*[arr[i]]]
-            helper(arr, i + char_count, slate)
-            # [slate.pop() for _ in range(1, cnt+1)]
-            [slate.pop() for _ in cnt*[arr[i]]]
-    helper(nums, 0, [])
-    return result
+        helper(0, [])
+        return result
 
 
-test = [1, 1, 2]
-print('Answer:', subsets_2(test))
+sol = Solution()
+
+print('.........Test_Case_1...........')
+nums = [1, 2, 2]
+print("nums:", nums)
+print('Subsets 2:\n', sol.subsetsWithDup(nums))
+print('.........Test_Case_2...........')
+nums = [0]
+print("nums:", nums)
+print('Subsets 2:\n', sol.subsetsWithDup(nums))
+print('.........Test_Case_3...........')
+nums = [4, 4, 4, 1, 4]
+print("nums:", nums)
+print('Subsets 2:\n', sol.subsetsWithDup(nums))
