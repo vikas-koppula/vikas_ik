@@ -22,23 +22,45 @@ class Solution:
     def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
         result: List[List[int]] = list()
         nums = sorted(candidates)
+
+        # Count the number of adjacent duplicates
+        def char_count(idx: int) -> int:
+            count: int = 1
+            next_idx = idx + 1
+            while next_idx < len(nums) and nums[idx] == nums[next_idx]:
+                count += 1
+                next_idx += 1
+            return count
+
         def helper(i: int, slate: List[int]):
-            # Leaf / Exit condition
-            if i == len(nums):
-                return
-            # Sum exceed exit condition
-            if sum(slate) > target:
-                return
             # Backtracking case
             if sum(slate) == target:
                 result.append(slate[:])
                 return
-            # Exclude
-            helper(i + 1, slate)
-            # Include
-            slate.append(nums[i])
-            helper(i+1, slate)
-            slate.pop()
+
+            # Sum exceed exit condition
+            if sum(slate) > target:
+                return
+
+            # Leaf / Exit condition
+            if i == len(nums):
+                return
+
+            # Get count of repetitions
+            count: int = char_count(i)
+
+            # Exclude condition
+            # IMPORTANT: need to increment i by count and not just +1
+            helper(i + count, slate)
+
+            # Include based on char count
+            for cnt in range(1, count + 1):
+                # Needed to include once, twice and more, based on the number of duplicates. Includes depend on current value of cnt
+                [slate.append(x) for x in cnt * [nums[i]]]
+                # IMPORTANT: need to increment i by count and not cnt. Using cnt will result in duplicate sets
+                helper(i + count, slate)
+                # Pop once, twice and more, based on the number of duplicates
+                [slate.pop() for _ in cnt * [nums[i]]]
 
         helper(0, [])
         return result
@@ -54,6 +76,12 @@ print('Combination Sum: ', sol.combinationSum2(candidates, target))
 
 print('\n.........Test_Case_2...........')
 candidates = [2, 5, 2, 1, 2]
+target = 5
+print("candidates:", candidates)
+print("target:", target)
+print('Combination Sum: ', sol.combinationSum2(candidates, target))
+print('\n.........Test_Case_3...........')
+candidates = [5]
 target = 5
 print("candidates:", candidates)
 print("target:", target)
