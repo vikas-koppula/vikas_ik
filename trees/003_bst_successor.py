@@ -20,7 +20,42 @@ from typing import Optional
 
 class Solution:
     def inorderSuccessor(self, root: TreeNode, p: TreeNode) -> Optional[TreeNode]:
+        curr = root
+        if curr is None:
+            return curr
+        succ = None
+        # Strategy here is that we are going to start search from the root and use the properties of the BST.
+        # curr val <= the target => the successor will only be in the right subtree. hence iterate. Ignore left subtree
+        # Curr val > the target => this is a potential successor. Will still need to iterate on the left subtree to find
+        # if there is a closer successor. Can ignore the right subtree
+        while curr is not None:
+            if curr.val > p.val:
+                succ = curr.val
+                curr = curr.left
+            # Import to include equal to condition, otherwise will not find the successor if the target == root val
+            elif curr.val <= p.val:
+                curr = curr.right
+        return succ
 
+sol = Solution()
 
-        if p.val < root.val:
+print('.........Test_Case_1...........')
+input = '[2,1,3]'
+p = 1
+display(build_tree(input))
+root = build_tree(input)
+print('inorderSuccessor: ', sol.inorderSuccessor(root, TreeNode(p, None, None)))
 
+print('.........Test_Case_2...........')
+input = '[5,3,6,2,4,null,null,1]'
+p = 6
+display(build_tree(input))
+root = build_tree(input)
+print('inorderSuccessor: ', sol.inorderSuccessor(root, TreeNode(p, None, None)))
+
+print('.........Test_Case_3...........')
+input = '[2,null,3]'
+p = 2
+display(build_tree(input))
+root = build_tree(input)
+print('inorderSuccessor: ', sol.inorderSuccessor(root, TreeNode(p, None, None)))
