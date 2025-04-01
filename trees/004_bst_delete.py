@@ -27,44 +27,52 @@ from util.treenode import TreeNode, build_tree
 from typing import Optional
 
 class Solution:
-    # One step right and then always left
-    def successor(self, root: TreeNode) -> int:
-        root = root.right
-        while root.left:
-            root = root.left
-        return root.val
 
-    # One step left and then always right
+    def successor(self, root: TreeNode) -> int:
+        curr: TreeNode = root.right
+        while curr.left:
+            curr = curr.left
+        return curr.val
+
     def predecessor(self, root: TreeNode) -> int:
-        root = root.left
-        while root.right:
-            root = root.right
-        return root.val
+        curr: TreeNode = root.left
+        while curr.right:
+            curr = curr.right
+        return curr.val
 
     def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
-        if not root:
-            return None
 
-        # delete from the right subtree
-        if key > root.val:
-            root.right = self.deleteNode(root.right, key)
-        # delete from the left subtree
-        elif key < root.val:
+        # Standard edge case check on a null node
+        if root is None:
+            return root
+
+        # Navigate the left or right subtree to get to the node to be deleted
+        # Propagate the delete function down the subtrees.
+        if key < root.val:
             root.left = self.deleteNode(root.left, key)
-        # delete the current node
+        elif key > root.val:
+            root.right = self.deleteNode(root.right, key)
         else:
-            # the node is a leaf
-            if not (root.left or root.right):
+            # Found the node to be deleted. Now we have 3 conditions.
+            # 1. Leaf node. Then just make the node null and return the null to the calling function
+            if root.left is None and root.right is None:
                 root = None
-            # The node is not a leaf and has a right child
-            elif root.right:
+            # 2. Node has a right subtree: Find the successor. Copy the successor val to node and then del the successor
+            # Note: The node can have a left subtree. If it also has a right subtree, then we need to replace deleted
+            # node with the successor, which would be in the right subtree. We can just leave the left subtree as is.
+            elif root.right is not None:
+                # Copy the value of the successor to the root node to be deleted
                 root.val = self.successor(root)
+                # We now need to delete the successor. Look for the successor in the right subtree and delete it
+                # Leaf left subtree as is, if it does exist
+                # root.val works here because of the overwrite the line before.
+                # root.val is now the value of the successor we are trying to delete
                 root.right = self.deleteNode(root.right, root.val)
-            # the node is not a leaf, has no right child, and has a left child
-            else:
+            # 3. Node has a left subtree: Find the predecessor, but only look down the tree. Dont look up the tree.
+            # Copy the predecessor val to node and then del the predecessor
+            elif root.left is not None:
                 root.val = self.predecessor(root)
                 root.left = self.deleteNode(root.left, root.val)
-
         return root
 
 sol = Solution()

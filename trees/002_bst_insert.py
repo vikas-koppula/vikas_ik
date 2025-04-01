@@ -45,7 +45,16 @@ class Solution:
             prev.right = ins_node
         return root
 
-
+    def insertIntoBST_recursive(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
+        # If the root is null, then return the val to be inserted as the root
+        if root is None:
+            return TreeNode(val, None, None)
+        # Check if the val would be in the left subtree. If so then delete to the subordinate
+        if val < root.val:
+            root.left = self.insertIntoBST_recursive(root.left, val)
+        elif val > root.val:
+            root.right = self.insertIntoBST_recursive(root.right, val)
+        return root
 
 
 sol = Solution()
@@ -70,3 +79,25 @@ val = 4
 display(build_tree(input))
 root = build_tree(input)
 print('Search: ', sol.insertIntoBST(root, val))
+
+
+print('.........Test_Case_4...........')
+input = '[4,2,7,1,3]'
+val = 5
+display(build_tree(input))
+root = build_tree(input)
+print('Search: ', sol.insertIntoBST_recursive(root, val))
+
+print('.........Test_Case_5...........')
+input = '[8,null,55,39,null,11,null,null,23,null,null]'
+val = 17
+display(build_tree(input))
+root = build_tree(input)
+print('Search: ', sol.insertIntoBST_recursive(root, val))
+
+print('.........Test_Case_6...........')
+input = '[5,null,14,10,77,null,null,null,95,null,null]'
+val = 4
+display(build_tree(input))
+root = build_tree(input)
+print('Search: ', sol.insertIntoBST_recursive(root, val))
