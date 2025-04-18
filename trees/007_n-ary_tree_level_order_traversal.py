@@ -17,6 +17,28 @@ from util.display_tree import display
 from util.treenode import TreeNode, build_tree
 from typing import List, Optional
 
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
 
 class Solution:
     def levelOrder(self, root: 'Node') -> List[List[int]]:
+
+        if root is None:
+            return []
+        dq = deque()
+        result: List[List[int]] = list()
+        dq.append(root)
+
+        while bool(dq):
+            tmp: List[int] = list()
+            for _ in range(len(dq)):
+                node = dq.popleft()
+                tmp.append(node.val)
+                for child in node.children:
+                    dq.append(child)
+            result.append(tmp)
+        return result
+
+sol = Solution()

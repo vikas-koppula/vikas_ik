@@ -37,6 +37,7 @@ class Solution:
                     dq.append(node.left)
                 if node.right is not None:
                     dq.append(node.right)
+            # At the end of each level traversal, append the last popped node to the result for this level
             result.append(rigth_most)
         return result
 

@@ -43,26 +43,15 @@ class Solution:
         return result
 
 
-"""       5
-         / \
-        /   \
-       3     7
-        \   / \
-         4 6   8
-              /
-             9 
-"""
-
-
 sol = Solution()
 
 print('.........Test_Case_1...........')
-input = [3,9,20,None,None,15,7]
+input = '[3,9,20,None,None,15,7]'
 display(build_tree(input))
 root = build_tree(input)
 print('Level Order:\n', sol.levelOrder(root))
 print('.........Test_Case_2...........')
-input = [1]
+input = '[1]'
 display(build_tree(input))
 root = build_tree(input)
 print('Level Order:\n', sol.levelOrder(root))
