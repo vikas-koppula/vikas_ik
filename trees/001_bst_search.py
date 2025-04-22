@@ -50,6 +50,8 @@ class Solution:
         elif val > curr.val:
             return self.searchBST_rec(curr.right, val)
 
+        return None
+
 
 sol = Solution()
 
