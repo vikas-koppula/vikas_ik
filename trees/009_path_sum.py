@@ -28,31 +28,33 @@ from typing import List, Optional
 
 class Solution:
     def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        # This is the global box. This is needed for a top down DFS
         check: list = [False]
 
         def helper(node: TreeNode, target: int):
+            # Edge case
             if node is None:
                 return False
-            # Base case
+            # Base case: First check if we are in the leaf node, then only check the sum
             if node.left is None and node.right is None:
                 if node.val == target:
                     check[0] = True
-                return
+                return # Return nothing as this is top down DFS
 
             # Recursive Case
             if node.left and check[0] is False:
                 helper(node.left, target - node.val)
             if node.right and check[0] is False:
                 helper(node.right, target - node.val)
-
+            return
         helper(root, targetSum)
         return check[0]
 
 
 sol = Solution()
 print('.........Test_Case_1...........')
-input = [5,4,8,11,None,13,4,7,2,None,None,None,1]
+input = '[5,4,8,11,None,13,4,7,2,None,None,None,1]'
+targetSum = 22
 display(build_tree(input))
-# root = build_tree(input)
-# print('Level Order:\n', sol.hasPathSum(root))
-
+root = build_tree(input)
+print('Path sum:\n', sol.hasPathSum(root, targetSum))

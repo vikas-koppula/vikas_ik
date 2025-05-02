@@ -53,6 +53,16 @@ class Solution:
 
 
 sol = Solution()
+
+
+# print('.........Test_Case_1...........')
+# input = [5,4,8,11,None,13,4,7,2,None,None,5,1]
+# display(build_tree(input))
+
+
 print('.........Test_Case_1...........')
-input = [5,4,8,11,None,13,4,7,2,None,None,5,1]
+input = '[5,4,8,11,None,13,4,7,2,None,None,5,1]'
 display(build_tree(input))
+root = build_tree(input)
+targetSum = 22
+print('pathSum', sol.pathSum(root, targetSum))
