@@ -59,8 +59,8 @@ def build_tree(leet_code_input: str, should_print_tree_code_to_console=False):
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
-        self.left = left
-        self.right = right
+        self.left: TreeNode = left
+        self.right: TreeNode = right
 
 
 # Driver Code

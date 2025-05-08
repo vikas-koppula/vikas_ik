@@ -46,7 +46,7 @@ class Solution:
 
 sol = Solution()
 print('.........Test_Case_1...........')
-input = [1, 2, 3, 4, 5]
+input = '[1, 2, 3, 4, 5]'
 display(build_tree(input))
 root = build_tree(input)
 print('Diameter:\n', sol.diameterOfBinaryTree(root))

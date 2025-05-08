@@ -81,9 +81,43 @@ class Solution:
         return global_count[0]
 
 
+    def count_unival_subtrees_3(root: TreeNode) -> int:
+        result: list[int] = [0]
+        if root is None:
+            return 0
+
+        def helper(node: TreeNode) -> bool:
+            lh = True
+            rh = True
+            # Base case leaf node
+            if node.left is not None and node.right is not None:
+                result[0] = result[0] + 1
+                return True
+            if bool(node.left):
+                if node.left is True and node.val == node.left.val:
+                    lh = True
+                else:
+                    lh = False
+            if bool(node.right):
+                if helper(node.right) is True and node.right.val == node.val:
+                    rh = True
+                else:
+                    rh = False
+
+            if lh & rh is True:
+                result[0] = result[0] + 1
+
+            return lh & rh
+
+        helper(root)
+        return result[0]
+
+
+
+
 sol = Solution()
 print('.........Test_Case_1...........')
-input = [5, 1, 5, 5, 5, None, 5]
+input = '[5, 1, 5, 5, 5, None, 5]'
 display(build_tree(input))
 root = build_tree(input)
 print('Count Univalue Subtrees:\n', sol.countUnivalSubtrees(root))
