@@ -21,3 +21,22 @@ Explanation: There are three ways to climb to the top.
 
 class Solution:
     def climbStairs(self, n: int) -> int:
+        # Memory structure to store subproblem results
+        mem = dict()
+        # Base cases: Only one way to get to the first step; Two ways to get to the 2nd step
+        mem[1] = 1
+        mem[2] = 2
+        # Iterative for loop. Will start from 3 as the recursive equation will not work for < 3
+        for i in range(3,n+1):
+            mem[i] = mem[i-1] + mem[i-2]
+        return mem[n]
+
+
+sol = Solution()
+print('\n.........Test_Case_1...........')
+n = 2
+print('climbStairs:', sol.climbStairs(n))
+
+print('\n.........Test_Case_2...........')
+n = 3
+print('climbStairs:', sol.climbStairs(n))
