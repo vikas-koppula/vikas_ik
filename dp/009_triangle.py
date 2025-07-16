@@ -30,8 +30,7 @@ class Solution:
         cache[0][0] = triangle[0][0]
         for i in range(1,len(triangle)):
             cache[i][0] = triangle[i][0] + cache[i-1][0]
-        for i in range(1,len(triangle)):
-            cache[i][-1] = triangle[i][-1] + cache[i-1][-1]
+            cache[i][-1] = triangle[i][-1] + cache[i - 1][-1]
         # Recursive case: The optimal substructure here is going to be to the prefix cell. That optimal substructure
         # will not tell us if that is the shortest path of the row itself, but it will tell us the shortest path instead
         # to the cell. To get the min path to the row, we need to compute the cost for all bottom cells and then get min
