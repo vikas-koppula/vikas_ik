@@ -18,7 +18,42 @@ Example 3:
 Input: coins = [1], amount = 0
 Output: 0
 """
-from typing import List
+from typing import List, Dict
+
 
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
+        mem: Dict[int:int] = dict()
+        # Base cases
+        mem[0] = 0
+
+        def mem_lookup(x: int):
+            if x < 0:
+                return amount+1
+            else:
+                return mem[x]
+
+        for amt in range(1, amount+1):
+            mem[amt] = min( [mem_lookup(amt-coin) for coin in coins]) + 1
+        if mem[amount] > amount:
+            return -1
+        else:
+            return mem[amount]
+
+
+sol = Solution()
+
+print('\n.........Test_Case_1...........')
+coins = [1,2,5]
+amount = 11
+print('coinChange:', sol.coinChange(coins, amount))
+
+print('\n.........Test_Case_2...........')
+coins = [2]
+amount = 3
+print('coinChange:', sol.coinChange(coins, amount))
+
+print('\n.........Test_Case_3...........')
+coins = [1]
+amount = 0
+print('coinChange:', sol.coinChange(coins, amount))
